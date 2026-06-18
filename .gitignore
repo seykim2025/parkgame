@@ -1,5 +1,6 @@
 library/
 local/
 temp/
-build/
+build/*
+!build/web-mobile/
 *.rar
