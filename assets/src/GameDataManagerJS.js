@@ -1,64 +1,64 @@
 let n = module.exports = {};
 let t = module;
 var i = ["dataA0", "dataB0", "dataC0", "dataD0"],
-    o = ["简单", "中等", "困难", "专家"],
+    o = ["쉬움", "보통", "어려움", "전문가"],
     a = [{
-        ch: "中文",
-        en: "English"
+        ch: "한국어",
+        en: "한국어"
     }, {
-        ch: "载入进度",
-        en: "Loading"
+        ch: "로딩중",
+        en: "로딩중"
     }, {
-        ch: "过关",
-        en: "GOAL"
+        ch: "클리어",
+        en: "클리어"
     }, {
-        ch: "控制",
-        en: "CONTROL"
+        ch: "조작",
+        en: "조작"
     }, {
-        ch: "纵向的汽车",
-        en: "VERTICAL CARS"
+        ch: "세로 차량",
+        en: "세로 차량"
     }, {
-        ch: "横向的汽车",
-        en: "HORIZONTAL CARS"
+        ch: "가로 차량",
+        en: "가로 차량"
     }, {
-        ch: "关卡",
-        en: "PUZZLE"
+        ch: "스테이지",
+        en: "스테이지"
     }, {
-        ch: "简单",
-        en: "EASY"
+        ch: "쉬움",
+        en: "쉬움"
     }, {
-        ch: "中等",
-        en: "MEDIUM"
+        ch: "보통",
+        en: "보통"
     }, {
-        ch: "困难",
-        en: "HARD"
+        ch: "어려움",
+        en: "어려움"
     }, {
-        ch: "专家",
-        en: "EXPERT"
+        ch: "전문가",
+        en: "전문가"
     }, {
-        ch: "求助 遇到困难了 快来帮帮我",
-        en: "asking for help"
+        ch: "도움이 필요해요",
+        en: "도움이 필요해요"
     }, {
-        ch: " 关卡 ",
-        en: " LEVEL "
+        ch: " 레벨 ",
+        en: " 레벨 "
     }, {
-        ch: "提示  x",
-        en: "HINT  x"
+        ch: "힌트  x",
+        en: "힌트  x"
     }, {
-        ch: "撤回",
-        en: "UNDO"
+        ch: "되돌리기",
+        en: "되돌리기"
     }, {
-        ch: "重试",
-        en: "RETRY"
+        ch: "재시도",
+        en: "재시도"
     }, {
-        ch: "暂停",
-        en: "PAUSE"
+        ch: "일시정지",
+        en: "일시정지"
     }, {
-        ch: "和好友一起闯关吧",
-        en: "play with friends "
+        ch: "친구와 함께하기",
+        en: "친구와 함께하기"
     }, {
-        ch: "提示",
-        en: "HINT"
+        ch: "힌트",
+        en: "힌트"
     }],
     c = require('LevelDataJS'),
     s = require('subBlockStatusDataJS'),
