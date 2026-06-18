@@ -53,7 +53,7 @@ cc.Class({
         this.gold_lab.string = i.money
     },
     start: function() {
-        if(this.gameBox) this.gameBox.active = false; this.rankNode.active = !1, this.skinNode.active = !1, this.playAudio();
+        if(this.gameBox) this.gameBox.active = false; if(this.moregame_btn) this.moregame_btn.node.active = false; this.rankNode.active = !1, this.skinNode.active = !1, this.playAudio();
         var e = a.getInstance().getGameCompleteStars();
         this.submitScoreButtonFunc(e)
     },
