@@ -19,7 +19,7 @@ cc.Class({
     },
     onLoad: function() {
         var e = cc.find("Canvas").getComponent(cc.Canvas);
-        cc.winSize.width / cc.winSize.height <= (750 / 1334).designScreen ? (e.fitHeight = !1, e.fitWidth = !0) : (e.fitHeight = !0, e.fitWidth = !1), e.alignWithScreen(), this.audioControl = cc.find("AudioControlNode").getComponent("AudioSourceControl"), this.content = cc.find("Canvas/DifficultPageView/view/content"), console.log("找到了", this.content), this.initStageData();
+        cc.winSize.width / cc.winSize.height <= (750 / 1334) ? (e.fitHeight = !1, e.fitWidth = !0) : (e.fitHeight = !0, e.fitWidth = !1), this.audioControl = cc.find("AudioControlNode").getComponent("AudioSourceControl"), this.content = cc.find("Canvas/DifficultPageView/view/content"), console.log("找到了", this.content), this.initStageData();
         for (var t = 0; t < 4; t++) {
             var n = new cc.Component.EventHandler;
             if (n.target = this.node, n.component = "SelectDifficultSceneJS", n.handler = "enterGameStageCallback", n.customEventData = t, this.select[t].getComponent(cc.Button).clickEvents.push(n), cc.sys.isNative && cc.sys.platform == cc.sys.IPHONE) {

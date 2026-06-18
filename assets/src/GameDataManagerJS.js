@@ -103,7 +103,7 @@ var i = ["dataA0", "dataB0", "dataC0", "dataD0"],
         adapt: function(e) {
             var t = cc.view.getVisibleSize().height,
                 n = cc.view.getVisibleSize().width;
-            t / n > 1.9 ? (e.scale = .8, e.alignWithScreen()) : t / n < 1.4 && (e.scale = 1.05, e.alignWithScreen())
+            t / n > 1.9 ? (e.scale = .8) : t / n < 1.4 && (e.scale = 1.05)
         },
         getPackageCount: function() {
             return this.PACAKGE_COUNT

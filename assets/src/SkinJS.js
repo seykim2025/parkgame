@@ -34,7 +34,7 @@ cc.Class({
     },
     onLoad: function() {
         var e = cc.find("Canvas").getComponent(cc.Canvas);
-        cc.winSize.width / cc.winSize.height <= (750 / 1334).designScreen ? (e.fitHeight = !1, e.fitWidth = !0) : (e.fitHeight = !0, e.fitWidth = !1), e.alignWithScreen(), this.audioControl = cc.find("AudioControlNode").getComponent("AudioSourceControl");
+        cc.winSize.width / cc.winSize.height <= (750 / 1334) ? (e.fitHeight = !1, e.fitWidth = !0) : (e.fitHeight = !0, e.fitWidth = !1), this.audioControl = cc.find("AudioControlNode").getComponent("AudioSourceControl");
         var t = o.getInstance().getcarskin();
         i.carskin = t;
         for (var n = 0; n < 12; n++) {

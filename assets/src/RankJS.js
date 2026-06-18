@@ -10,7 +10,7 @@ cc.Class({
     },
     onLoad: function() {
         var e = cc.find("Canvas").getComponent(cc.Canvas);
-        if (cc.winSize.width / cc.winSize.height <= (750 / 1334).designScreen ? (e.fitHeight = !1, e.fitWidth = !0) : (e.fitHeight = !0, e.fitWidth = !1), e.alignWithScreen(), cc.sys.isNative && cc.sys.platform == cc.sys.IPHONE) {
+        if (cc.winSize.width / cc.winSize.height <= (750 / 1334) ? (e.fitHeight = !1, e.fitWidth = !0) : (e.fitHeight = !0, e.fitWidth = !1), cc.sys.isNative && cc.sys.platform == cc.sys.IPHONE) {
             var t = cc.view.getFrameSize();
             if (2436 == t.width && 1125 == t.height || 1125 == t.width && 2436 == t.height) {
                 var n = this.node.getComponent(cc.Canvas);

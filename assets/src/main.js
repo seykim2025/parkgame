@@ -23,7 +23,7 @@ cc.Class({
     onLoad: function() {
         var e = this,
             t = cc.find("Canvas").getComponent(cc.Canvas);
-        cc.winSize.width / cc.winSize.height <= (750 / 1334).designScreen ? (t.fitHeight = !1, t.fitWidth = !0) : (t.fitHeight = !0, t.fitWidth = !1), t.alignWithScreen();
+        cc.winSize.width / cc.winSize.height <= (750 / 1334) ? (t.fitHeight = !1, t.fitWidth = !0) : (t.fitHeight = !0, t.fitWidth = !1), 
         var n = cc.view.getDesignResolutionSize(),
             o = cc.director.getWinSize(),
             c = (o.width, n.width, o.height, n.height, cc.view.getVisibleSize()),
@@ -53,7 +53,7 @@ cc.Class({
         this.gold_lab.string = i.money
     },
     start: function() {
-        this.rankNode.active = !1, this.skinNode.active = !1, this.playAudio();
+        if(this.gameBox) this.gameBox.active = false; this.rankNode.active = !1, this.skinNode.active = !1, this.playAudio();
         var e = a.getInstance().getGameCompleteStars();
         this.submitScoreButtonFunc(e)
     },

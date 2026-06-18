@@ -28,7 +28,7 @@ cc.Class({
     },
     onLoad: function() {
         var e = cc.find("Canvas").getComponent(cc.Canvas);
-        cc.winSize.width / cc.winSize.height <= (750 / 1334).designScreen ? (e.fitHeight = !1, e.fitWidth = !0) : (e.fitHeight = !0, e.fitWidth = !1), e.alignWithScreen(), this.init(), this.audioControl = cc.find("AudioControlNode").getComponent("AudioSourceControl")
+        cc.winSize.width / cc.winSize.height <= (750 / 1334) ? (e.fitHeight = !1, e.fitWidth = !0) : (e.fitHeight = !0, e.fitWidth = !1), this.init(), this.audioControl = cc.find("AudioControlNode").getComponent("AudioSourceControl")
     },
     init: function() {
         this.m_Package = i.getInstance().getLatestPackage(), this.m_MaxUnlockedStageIdx = i.getInstance().getMaxUnlockedStage(this.m_Package), this.m_StageCount = i.getInstance().getStageCount(this.m_Package), this.m_PageCount = this.m_StageCount / this.m_PageStageCount, this.addStageBtn()
