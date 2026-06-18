@@ -1,0 +1,110 @@
+[
+  {
+    "__type__": "cc.Prefab",
+    "_name": "rollingImage",
+    "data": {
+      "__id__": 1
+    }
+  },
+  {
+    "__type__": "cc.Node",
+    "_name": "rollingImage",
+    "_level": 1,
+    "_components": [
+      {
+        "__type__": "cc.Sprite",
+        "node": {
+          "__id__": 1
+        },
+        "_spriteFrame": {
+          "__uuid__": "0c6bcb8a-17cb-4d2c-9d90-8c02001e4c92"
+        }
+      },
+      {
+        "__type__": "cc.Button",
+        "node": {
+          "__id__": 1
+        },
+        "clickEvents": [
+          {
+            "__type__": "cc.ClickEvent",
+            "target": {
+              "__id__": 1
+            },
+            "_componentId": "349ddDm12BHZr/ke3RAJ5Xv",
+            "handler": "btn"
+          }
+        ],
+        "_N$target": {
+          "__id__": 1
+        }
+      },
+      {
+        "__type__": "349ddDm12BHZr/ke3RAJ5Xv",
+        "node": {
+          "__id__": 1
+        },
+        "iconImageArray": [
+          {
+            "__uuid__": "0c6bcb8a-17cb-4d2c-9d90-8c02001e4c92"
+          },
+          {
+            "__uuid__": "61cb511b-7271-4dd3-a93f-fd08d4fafb42"
+          },
+          {
+            "__uuid__": "eff4aeed-dafd-4d1f-ad1f-d5fb24db952a"
+          },
+          {
+            "__uuid__": "b6e7b6b3-73a0-4c07-833c-c7f9c093198f"
+          },
+          {
+            "__uuid__": "c2e77eea-ff5e-44d7-b5a3-630a4cd42350"
+          },
+          {
+            "__uuid__": "fd9613c0-c67a-4292-8f18-03adf87b11d7"
+          },
+          {
+            "__uuid__": "3df0fac1-8d43-4ca2-8c66-7f63f77ee6d5"
+          },
+          {
+            "__uuid__": "1a852bca-123e-4acb-a6fe-932b08ef9856"
+          },
+          {
+            "__uuid__": "5b1fa698-0c6b-4a4c-9aa4-c257f3b5c735"
+          }
+        ]
+      }
+    ],
+    "_prefab": {
+      "__type__": "cc.PrefabInfo",
+      "root": {
+        "__id__": 1
+      },
+      "asset": {
+        "__uuid__": "1e187e54-2fa6-4c74-a4c1-a390ffb1fa91"
+      },
+      "fileId": "cdVqjQ1atP+KDRUZKeyiqx"
+    },
+    "_contentSize": {
+      "__type__": "cc.Size",
+      "width": 120,
+      "height": 152
+    },
+    "_trs": {
+      "__type__": "TypedArray",
+      "ctor": "Float64Array",
+      "array": [
+        100,
+        338,
+        0,
+        0,
+        0,
+        0,
+        1,
+        1,
+        1,
+        1
+      ]
+    }
+  }
+]

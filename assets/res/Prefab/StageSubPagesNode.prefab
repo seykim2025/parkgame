@@ -1,0 +1,66 @@
+[
+  {
+    "__type__": "cc.Prefab",
+    "_name": "StageSubPagesNode",
+    "data": {
+      "__id__": 1
+    }
+  },
+  {
+    "__type__": "cc.Node",
+    "_name": "SubPages",
+    "_level": 1,
+    "_components": [
+      {
+        "__type__": "cc.Layout",
+        "node": {
+          "__id__": 1
+        },
+        "_resize": 2,
+        "_N$layoutType": 3,
+        "_N$cellSize": {
+          "__type__": "cc.Size",
+          "width": 110,
+          "height": 110
+        },
+        "_N$paddingLeft": 60,
+        "_N$paddingRight": 20,
+        "_N$paddingTop": 25,
+        "_N$paddingBottom": 25,
+        "_N$spacingX": 35,
+        "_N$spacingY": 40
+      }
+    ],
+    "_prefab": {
+      "__type__": "cc.PrefabInfo",
+      "root": {
+        "__id__": 1
+      },
+      "asset": {
+        "__uuid__": "d22f5f9e-0004-45ab-9c76-afe5d52ab1af"
+      },
+      "fileId": "e8bNP+bGdNOJhjMjbIRsn/"
+    },
+    "_contentSize": {
+      "__type__": "cc.Size",
+      "width": 300,
+      "height": 200
+    },
+    "_trs": {
+      "__type__": "TypedArray",
+      "ctor": "Float64Array",
+      "array": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        1,
+        1,
+        1,
+        1
+      ]
+    }
+  }
+]

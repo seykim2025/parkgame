@@ -1,0 +1,38 @@
+{
+  "ver": "2.3.7",
+  "uuid": "cb9ba25b-d119-4a27-9153-472cc5ff3f3f",
+  "importer": "texture",
+  "type": "sprite",
+  "wrapMode": "clamp",
+  "filterMode": "bilinear",
+  "premultiplyAlpha": false,
+  "genMipmaps": false,
+  "packable": true,
+  "width": 120,
+  "height": 147,
+  "platformSettings": {},
+  "subMetas": {
+    "六角消除": {
+      "ver": "1.0.6",
+      "uuid": "7ba20b59-0802-499a-afdf-d7ef92495b6a",
+      "importer": "sprite-frame",
+      "rawTextureUuid": "cb9ba25b-d119-4a27-9153-472cc5ff3f3f",
+      "trimType": "none",
+      "trimThreshold": 1,
+      "rotated": false,
+      "offsetX": 0,
+      "offsetY": 0,
+      "trimX": 0,
+      "trimY": 0,
+      "width": 120,
+      "height": 147,
+      "rawWidth": 120,
+      "rawHeight": 147,
+      "borderTop": 0,
+      "borderBottom": 0,
+      "borderLeft": 0,
+      "borderRight": 0,
+      "subMetas": {}
+    }
+  }
+}
