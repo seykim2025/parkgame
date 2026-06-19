@@ -133,12 +133,20 @@
             }
           }
           // Hide Chinese sprite hint buttons
-          function hideNode(path) {
-            var n = cc.find(path);
-            if (n) n.active = false;
+          function hideByName(parent, names) {
+            if (!parent) return;
+            for (var c = 0; c < parent.childrenCount; c++) {
+              var child = parent.children[c];
+              var nm = child.name;
+              for (var k = 0; k < names.length; k++) {
+                if (nm === names[k] || nm.toLowerCase().indexOf(names[k].toLowerCase()) !== -1) {
+                  child.active = false;
+                }
+              }
+              hideByName(child, names);
+            }
           }
-          hideNode('Canvas/game/freehint_btn');
-          hideNode('Canvas/game/videohint_btn');
+          hideByName(canvas, ['m_pHint', 'm_pVideoHint', 'm_pHint_bg', 'm_pVideoHint_bg']);
           console.log('[PARK] Korean labels patched: ' + labels.length);
         } catch(e) { console.log('[PARK] patch error:', e); }
       }, 500);
