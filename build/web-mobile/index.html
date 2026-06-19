@@ -125,6 +125,26 @@
     if (registered) return;
     registered = true;
 
+    // Create AudioControlNode (normally in 'main' scene which we skip)
+    if (!cc.find('AudioControlNode')) {
+      var acn = new cc.Node('AudioControlNode');
+      acn.addComponent(cc.AudioSource);
+      // Add a dummy AudioSourceControl component
+      var AudioSourceControl = cc.Class({
+        extends: cc.Component,
+        playBg: function(){},
+        stopBg: function(){},
+        playClick: function(){},
+        playMove: function(){},
+        playComplete: function(){},
+        setMute: function(){},
+        isMute: function(){ return false; }
+      });
+      acn.addComponent(AudioSourceControl);
+      cc.game.addPersistRootNode(acn);
+      console.log('[PARK] Created AudioControlNode');
+    }
+
     function doPatching() {
       setTimeout(function() {
         try {
