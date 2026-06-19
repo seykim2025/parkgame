@@ -42,6 +42,14 @@
 </head>
 <body>
   <canvas id="GameCanvas" oncontextmenu="event.preventDefault()" tabindex="0"></canvas>
+  <div id="debugPanel" style="position:fixed;top:10px;right:10px;z-index:99999;background:rgba(0,0,0,0.85);padding:8px;border-radius:8px;display:flex;flex-direction:column;gap:5px;">
+    <button onclick="try{cc.director.loadScene('ChooseStageScene');document.getElementById('dbgLog').innerText='→ ChooseStage'}catch(ex){document.getElementById('dbgLog').innerText='ERR:'+ex.message}" style="padding:6px 10px;font-size:13px;font-weight:bold;color:#fff;background:#2196F3;border:none;border-radius:4px;cursor:pointer;">▶ 스테이지 선택</button>
+    <button onclick="try{cc.director.loadScene('game');document.getElementById('dbgLog').innerText='→ game'}catch(ex){document.getElementById('dbgLog').innerText='ERR:'+ex.message}" style="padding:6px 10px;font-size:13px;font-weight:bold;color:#fff;background:#FF9800;border:none;border-radius:4px;cursor:pointer;">▶ 게임 시작</button>
+    <button onclick="try{cc.director.loadScene('main');document.getElementById('dbgLog').innerText='→ main'}catch(ex){document.getElementById('dbgLog').innerText='ERR:'+ex.message}" style="padding:6px 10px;font-size:13px;font-weight:bold;color:#fff;background:#666;border:none;border-radius:4px;cursor:pointer;">▶ 메인 화면</button>
+    <button onclick="try{var s=cc.director.getScene();var info='Scene:'+s.name;var canvas=cc.find('Canvas');if(canvas){var ch=canvas.children;info+='\nChildren:'+ch.length;for(var i=0;i<ch.length;i++){info+='\n '+ch[i].name+' a:'+ch[i].active+' s:'+ch[i].width+'x'+ch[i].height}}document.getElementById('dbgLog').innerText=info}catch(ex){document.getElementById('dbgLog').innerText='ERR:'+ex.message}" style="padding:6px 10px;font-size:13px;font-weight:bold;color:#fff;background:#9C27B0;border:none;border-radius:4px;cursor:pointer;">🔍 노드</button>
+    <div id="dbgLog" style="color:#0f0;font-size:10px;font-family:monospace;max-width:220px;max-height:150px;overflow-y:auto;white-space:pre-wrap;">대기중</div>
+    <button onclick="document.getElementById('debugPanel').style.display='none'" style="padding:3px;font-size:10px;color:#888;background:transparent;border:1px solid #555;border-radius:3px;cursor:pointer;">닫기</button>
+  </div>
   <div id="splash">
     <div class="progress-bar stripes">
       <span style="width: 0%"></span>
@@ -88,3 +96,4 @@
 </script>
 </body>
 </html>
+
