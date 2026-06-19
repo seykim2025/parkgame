@@ -95,36 +95,42 @@
 })();
 </script>
 <script>
-// Korean text patcher - runs after each scene loads
+// Comprehensive Korean text patcher
 (function() {
-  var applied = false;
-  function patchLabels() {
-    if (!window.cc || !cc.director) { setTimeout(patchLabels, 1000); return; }
-    if (applied) return;
-    applied = true;
-    cc.director.on(cc.Director.EVENT_AFTER_SCENE_LAUNCH, function() {
+  var registered = false;
+  function init() {
+    if (!window.cc || !cc.director) { setTimeout(init, 1000); return; }
+    if (registered) return;
+    registered = true;
+
+    function doPatching() {
       setTimeout(function() {
         try {
           var canvas = cc.find('Canvas');
           if (!canvas) return;
-          // Patch all Label components
+
+          // 1. Patch all Label text
           var labels = canvas.getComponentsInChildren(cc.Label);
           var map = {
-            '\u63d0\u793a': '\ud78c\ud2b8',     // 提示→힌트
-            '\u64a4\u56de': '\ub418\ub3cc\ub9ac\uae30', // 撤回→되돌리기
-            '\u91cd\u8bd5': '\ub2e4\uc2dc\ud558\uae30', // 重试→다시하기
-            '\u6682\u505c': '\uc77c\uc2dc\uc815\uc9c0', // 暂停→일시정지
-            '\u5173\u5361': '\ub808\ubca8',       // 关卡→레벨
-            '\u514d\u8d39': '\ubb34\ub8cc \ucf54\uc778', // 免费→무료 코인
-            '\u7ee7\u7eed': '\uacc4\uc18d',       // 继续→계속
-            '\u8fd4\u56de': '\ub3cc\uc544\uac00\uae30', // 返回→돌아가기
-            '\u4e3b\u9875': '\ud648',             // 主页→홈
-            '\u5206\u4eab': '\uacf5\uc720',       // 分享→공유
-            '\u91cd\u65b0\u5f00\u59cb': '\ub2e4\uc2dc \uc2dc\uc791', // 重新开始→다시 시작
-            '\u4e0b\u4e00\u5173': '\ub2e4\uc74c \ub808\ubca8', // 下一关→다음 레벨
-            '\u8fc7\u5173': '\ud074\ub9ac\uc5b4', // 过关→클리어
-            '\u5931\u8d25': '\uc2e4\ud328',       // 失败→실패
-            '\u6210\u529f': '\uc131\uacf5'        // 成功→성공
+            '\u63d0\u793a': '\ud78c\ud2b8',
+            '\u64a4\u56de': '\ub418\ub3cc\ub9ac\uae30',
+            '\u91cd\u8bd5': '\ub2e4\uc2dc\ud558\uae30',
+            '\u6682\u505c': '\uc77c\uc2dc\uc815\uc9c0',
+            '\u5173\u5361': '\ub808\ubca8',
+            '\u514d\u8d39': '\ubb34\ub8cc \ucf54\uc778',
+            '\u7ee7\u7eed': '\uacc4\uc18d',
+            '\u8fd4\u56de': '\ub3cc\uc544\uac00\uae30',
+            '\u4e3b\u9875': '\ud648',
+            '\u5206\u4eab': '\uacf5\uc720',
+            '\u91cd\u65b0\u5f00\u59cb': '\ub2e4\uc2dc \uc2dc\uc791',
+            '\u4e0b\u4e00\u5173': '\ub2e4\uc74c \ub808\ubca8',
+            '\u8fc7\u5173': '\ud074\ub9ac\uc5b4',
+            '\u5931\u8d25': '\uc2e4\ud328',
+            '\u6210\u529f': '\uc131\uacf5',
+            '\u51fa\u8f66': '\ucd9c\ucc28',
+            '\u505c\u8f66\u5927\u4ea8': '\ud1a0\uc2a4 \uc8fc\ucc28\uac8c\uc784',
+            '\u627e\u5230\u4e86': '\ucc3e\uc558\ub2e4',
+            '\u6536\u96c6': '\uc218\uc9d1'
           };
           for (var i = 0; i < labels.length; i++) {
             var s = labels[i].string;
@@ -132,40 +138,68 @@
             for (var cn in map) {
               if (s.indexOf(cn) !== -1) {
                 labels[i].string = s.split(cn).join(map[cn]);
-                break;
               }
             }
+            // Fix title overflow - widen label node if it contains Korean title
+            if (s.indexOf('\ud1a0\uc2a4') !== -1 || s.indexOf('\uc8fc\ucc28') !== -1) {
+              labels[i].overflow = 0; // NONE - no clipping
+              labels[i].node.width = 600;
+              labels[i].fontSize = Math.min(labels[i].fontSize, 50);
+            }
           }
-          // Overlay Korean text on sprite-based hint buttons
-          var hintNames = ['freehint_btn', 'videohint_btn', 'hint_btn', 'tishi'];
-          var allNodes = canvas.getComponentsInChildren(cc.Node);
-          // Search all child nodes for hint-related buttons
-          function searchNode(node) {
-            var name = node.name.toLowerCase();
-            if (name.indexOf('hint') !== -1 || name.indexOf('tishi') !== -1) {
-              if (!node.getComponent(cc.Label) && !node._krPatched) {
-                node._krPatched = true;
-                var lb = new cc.Node('krOverlay');
-                var lc = lb.addComponent(cc.Label);
-                lc.string = (name.indexOf('video') !== -1 || name.indexOf('200') !== -1) ? '200 \ud78c\ud2b8' : '\ud78c\ud2b8';
-                lc.fontSize = 16; lc.lineHeight = 20;
-                lb.color = cc.Color.WHITE;
-                lb.parent = node;
-                lb.setPosition(0, 0);
+
+          // 2. Fix hint buttons - hide sprite, add clean Korean label
+          function fixHintButtons(node) {
+            var nm = node.name.toLowerCase();
+            // Match hint/tishi button nodes
+            if ((nm.indexOf('hint') !== -1 || nm.indexOf('tishi') !== -1) && !node._krFixed) {
+              node._krFixed = true;
+              // Hide all Sprite children (the Chinese text images)
+              var sprites = node.getComponentsInChildren(cc.Sprite);
+              for (var j = 0; j < sprites.length; j++) {
+                sprites[j].node.opacity = 0;
               }
+              // Also hide the node's own sprite
+              var ownSprite = node.getComponent(cc.Sprite);
+              if (ownSprite) node.opacity = 0;
+
+              // Create a visible Korean button
+              var btn = new cc.Node('krBtn');
+              var label = btn.addComponent(cc.Label);
+              if (nm.indexOf('video') !== -1) {
+                label.string = '200 \ud78c\ud2b8';
+              } else {
+                label.string = '\ud78c\ud2b8';
+              }
+              label.fontSize = 20;
+              label.lineHeight = 24;
+              btn.color = new cc.Color(0, 200, 200);
+              btn.parent = node.parent;
+              btn.setPosition(node.x, node.y);
+              btn.zIndex = 100;
+            }
+            // Fix title_bg node - widen it
+            if (nm === 'title_bg' || nm === 'titlebg') {
+              node.width = Math.max(node.width, 600);
             }
             for (var c = 0; c < node.childrenCount; c++) {
-              searchNode(node.children[c]);
+              fixHintButtons(node.children[c]);
             }
           }
-          searchNode(canvas);
-          console.log('[PARK] Korean labels patched: ' + labels.length + ' checked');
-        } catch(e) { console.log('[PARK] label patch error:', e); }
-      }, 300);
-    });
-    console.log('[PARK] Korean label patcher registered');
+          fixHintButtons(canvas);
+
+          console.log('[PARK] Korean patch complete');
+        } catch(e) { console.log('[PARK] patch error:', e); }
+      }, 500);
+    }
+
+    // Run on every scene launch
+    cc.director.on(cc.Director.EVENT_AFTER_SCENE_LAUNCH, doPatching);
+    // Also run now for current scene
+    doPatching();
+    console.log('[PARK] Korean patcher registered');
   }
-  setTimeout(patchLabels, 2000);
+  setTimeout(init, 2000);
 })();
 </script>
 </body>
