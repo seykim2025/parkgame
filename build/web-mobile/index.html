@@ -107,19 +107,58 @@
         try {
           var canvas = cc.find('Canvas');
           if (!canvas) return;
+          // Patch all Label components
           var labels = canvas.getComponentsInChildren(cc.Label);
+          var map = {
+            '\u63d0\u793a': '\ud78c\ud2b8',     // 提示→힌트
+            '\u64a4\u56de': '\ub418\ub3cc\ub9ac\uae30', // 撤回→되돌리기
+            '\u91cd\u8bd5': '\ub2e4\uc2dc\ud558\uae30', // 重试→다시하기
+            '\u6682\u505c': '\uc77c\uc2dc\uc815\uc9c0', // 暂停→일시정지
+            '\u5173\u5361': '\ub808\ubca8',       // 关卡→레벨
+            '\u514d\u8d39': '\ubb34\ub8cc \ucf54\uc778', // 免费→무료 코인
+            '\u7ee7\u7eed': '\uacc4\uc18d',       // 继续→계속
+            '\u8fd4\u56de': '\ub3cc\uc544\uac00\uae30', // 返回→돌아가기
+            '\u4e3b\u9875': '\ud648',             // 主页→홈
+            '\u5206\u4eab': '\uacf5\uc720',       // 分享→공유
+            '\u91cd\u65b0\u5f00\u59cb': '\ub2e4\uc2dc \uc2dc\uc791', // 重新开始→다시 시작
+            '\u4e0b\u4e00\u5173': '\ub2e4\uc74c \ub808\ubca8', // 下一关→다음 레벨
+            '\u8fc7\u5173': '\ud074\ub9ac\uc5b4', // 过关→클리어
+            '\u5931\u8d25': '\uc2e4\ud328',       // 失败→실패
+            '\u6210\u529f': '\uc131\uacf5'        // 成功→성공
+          };
           for (var i = 0; i < labels.length; i++) {
             var s = labels[i].string;
             if (typeof s !== 'string') continue;
-            if (s.indexOf('\u63d0\u793a') !== -1) labels[i].string = s.replace('\u63d0\u793a', '\ud78c\ud2b8');
-            else if (s.indexOf('\u64a4\u56de') !== -1) labels[i].string = '\ub418\ub3cc\ub9ac\uae30';
-            else if (s.indexOf('\u91cd\u8bd5') !== -1) labels[i].string = '\ub2e4\uc2dc\ud558\uae30';
-            else if (s.indexOf('\u6682\u505c') !== -1) labels[i].string = '\uc77c\uc2dc\uc815\uc9c0';
-            else if (s.indexOf('\u5173\u5361') !== -1) labels[i].string = s.replace('\u5173\u5361', '\ub808\ubca8');
-            else if (s.indexOf('\u514d\u8d39') !== -1) labels[i].string = '\ubb34\ub8cc \ucf54\uc778';
-            else if (s.indexOf('\u7ee7\u7eed') !== -1) labels[i].string = '\uacc4\uc18d';
-            else if (s.indexOf('\u8fd4\u56de') !== -1) labels[i].string = '\ub3cc\uc544\uac00\uae30';
+            for (var cn in map) {
+              if (s.indexOf(cn) !== -1) {
+                labels[i].string = s.split(cn).join(map[cn]);
+                break;
+              }
+            }
           }
+          // Overlay Korean text on sprite-based hint buttons
+          var hintNames = ['freehint_btn', 'videohint_btn', 'hint_btn', 'tishi'];
+          var allNodes = canvas.getComponentsInChildren(cc.Node);
+          // Search all child nodes for hint-related buttons
+          function searchNode(node) {
+            var name = node.name.toLowerCase();
+            if (name.indexOf('hint') !== -1 || name.indexOf('tishi') !== -1) {
+              if (!node.getComponent(cc.Label) && !node._krPatched) {
+                node._krPatched = true;
+                var lb = new cc.Node('krOverlay');
+                var lc = lb.addComponent(cc.Label);
+                lc.string = (name.indexOf('video') !== -1 || name.indexOf('200') !== -1) ? '200 \ud78c\ud2b8' : '\ud78c\ud2b8';
+                lc.fontSize = 16; lc.lineHeight = 20;
+                lb.color = cc.Color.WHITE;
+                lb.parent = node;
+                lb.setPosition(0, 0);
+              }
+            }
+            for (var c = 0; c < node.childrenCount; c++) {
+              searchNode(node.children[c]);
+            }
+          }
+          searchNode(canvas);
           console.log('[PARK] Korean labels patched: ' + labels.length + ' checked');
         } catch(e) { console.log('[PARK] label patch error:', e); }
       }, 300);
