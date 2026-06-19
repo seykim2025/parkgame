@@ -94,6 +94,41 @@
     });
 })();
 </script>
+<script>
+// Korean text patcher - runs after each scene loads
+(function() {
+  var applied = false;
+  function patchLabels() {
+    if (!window.cc || !cc.director) { setTimeout(patchLabels, 1000); return; }
+    if (applied) return;
+    applied = true;
+    cc.director.on(cc.Director.EVENT_AFTER_SCENE_LAUNCH, function() {
+      setTimeout(function() {
+        try {
+          var canvas = cc.find('Canvas');
+          if (!canvas) return;
+          var labels = canvas.getComponentsInChildren(cc.Label);
+          for (var i = 0; i < labels.length; i++) {
+            var s = labels[i].string;
+            if (typeof s !== 'string') continue;
+            if (s.indexOf('\u63d0\u793a') !== -1) labels[i].string = s.replace('\u63d0\u793a', '\ud78c\ud2b8');
+            else if (s.indexOf('\u64a4\u56de') !== -1) labels[i].string = '\ub418\ub3cc\ub9ac\uae30';
+            else if (s.indexOf('\u91cd\u8bd5') !== -1) labels[i].string = '\ub2e4\uc2dc\ud558\uae30';
+            else if (s.indexOf('\u6682\u505c') !== -1) labels[i].string = '\uc77c\uc2dc\uc815\uc9c0';
+            else if (s.indexOf('\u5173\u5361') !== -1) labels[i].string = s.replace('\u5173\u5361', '\ub808\ubca8');
+            else if (s.indexOf('\u514d\u8d39') !== -1) labels[i].string = '\ubb34\ub8cc \ucf54\uc778';
+            else if (s.indexOf('\u7ee7\u7eed') !== -1) labels[i].string = '\uacc4\uc18d';
+            else if (s.indexOf('\u8fd4\u56de') !== -1) labels[i].string = '\ub3cc\uc544\uac00\uae30';
+          }
+          console.log('[PARK] Korean labels patched: ' + labels.length + ' checked');
+        } catch(e) { console.log('[PARK] label patch error:', e); }
+      }, 300);
+    });
+    console.log('[PARK] Korean label patcher registered');
+  }
+  setTimeout(patchLabels, 2000);
+})();
+</script>
 </body>
 </html>
 
