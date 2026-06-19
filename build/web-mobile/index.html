@@ -56,7 +56,7 @@
     var maxMsgs = 20;
     function addMsg(type, args) {
       var text = Array.prototype.slice.call(args).map(function(a){
-        return typeof a === 'object' ? JSON.stringify(a) : String(a);
+        if(typeof a==='object'){try{return JSON.stringify(a)}catch(e){return String(a)}}return String(a);
       }).join(' ');
       var color = type === 'error' ? '#f44' : type === 'warn' ? '#fa0' : '#0f0';
       msgs.push('<div style="color:'+color+';border-bottom:1px solid #222;padding:2px 0;">'+type.toUpperCase()+': '+text.substring(0,200)+'</div>');
