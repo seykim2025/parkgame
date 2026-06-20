@@ -219,11 +219,10 @@
                 var sp2 = child.getComponent(cc.Sprite);
                 if (!sp2) sp2 = child.addComponent(cc.Sprite);
                 sp2.sizeMode = 0;
-                sp2.spriteFrame = null;
+                sp2.spriteFrame = null; // immediately clear old Chinese title
                 cc.loader.load({url: 'logo.png', type: 'png'}, function(err, tex) {
                   if (!err && tex) {
                     sp2.spriteFrame = new cc.SpriteFrame(tex);
-                    child.active = true;
                   }
                 });
               }
