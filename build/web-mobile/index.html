@@ -118,6 +118,34 @@
     }
 
     function doPatching() {
+      // IMMEDIATE: Replace titlebg sprite right away (no delay)
+      try {
+        var canvas = cc.find('Canvas');
+        if (canvas) {
+          (function fixTitle(node) {
+            for (var c = 0; c < node.childrenCount; c++) {
+              var child = node.children[c];
+              if (child.name === 'titlebg' && !child._krFixed) {
+                child._krFixed = true;
+                child.width = 500;
+                child.height = 250;
+                var sp = child.getComponent(cc.Sprite);
+                if (!sp) sp = child.addComponent(cc.Sprite);
+                sp.sizeMode = 0;
+                sp.spriteFrame = null;
+                cc.loader.load({url: 'logo.png', type: 'png'}, function(err, tex) {
+                  if (!err && tex) {
+                    sp.spriteFrame = new cc.SpriteFrame(tex);
+                  }
+                });
+              }
+              fixTitle(child);
+            }
+          })(canvas);
+        }
+      } catch(e) {}
+
+      // DELAYED: Text translation & other patches
       setTimeout(function() {
         try {
           var canvas = cc.find('Canvas');
@@ -140,7 +168,7 @@
             '\u5931\u8d25': '\uc2e4\ud328',
             '\u6210\u529f': '\uc131\uacf5',
             '\u51fa\u8f66': '\ucd9c\ucc28',
-            '\u505c\u8f66\u5927\u4ea8': '\ud1a0\uc2a4 \uc8fc\ucc28\uac8c\uc784',
+            '\u505c\u8f66\u5927\u4ea8': '\uc8fc\ucc28 \uac8c\uc784',
             '\u627e\u5230\u4e86': '\ucc3e\uc558\ub2e4',
             '\u6536\u96c6': '\uc218\uc9d1',
             '\u606d\u559c\u8fc7\u5173': '\uc2a4\ud14c\uc774\uc9c0 \ud074\ub9ac\uc5b4!',
@@ -155,13 +183,7 @@
                 labels[i].string = s.split(cn).join(map[cn]);
               }
             }
-            // Fix title/label overflow for Korean text
             var ns = labels[i].string;
-            if (ns.indexOf('\ud1a0\uc2a4') !== -1 || ns.indexOf('\uc8fc\ucc28\uac8c\uc784') !== -1) {
-              labels[i].overflow = 0;
-              labels[i].node.width = Math.max(labels[i].node.width, 700);
-            }
-            // Fix any label that's clipping Korean text
             if (labels[i].overflow === 2 || labels[i].overflow === 3) {
               var labelW = labels[i].node.width;
               var estW = ns.length * labels[i].fontSize * 0.7;
@@ -171,7 +193,7 @@
               }
             }
           }
-          // Hide Chinese sprite hint buttons
+          // Hide hint buttons
           function hideByName(parent, names) {
             if (!parent) return;
             for (var c = 0; c < parent.childrenCount; c++) {
@@ -186,7 +208,7 @@
             }
           }
           hideByName(canvas, ['m_pHint', 'm_pVideoHint', 'm_pHint_bg', 'm_pVideoHint_bg']);
-          // Replace "恭喜过关" baked image with Korean text
+          // Replace victory image
           function replaceSprite(parent) {
             if (!parent) return;
             for (var c = 0; c < parent.childrenCount; c++) {
@@ -202,29 +224,13 @@
                   tn.parent = child;
                   tn.setPosition(0, 0);
                 }
-                lbl.string = '스테이지 클리어!';
+                lbl.string = '\uc2a4\ud14c\uc774\uc9c0 \ud074\ub9ac\uc5b4!';
                 lbl.fontSize = 36;
                 lbl.lineHeight = 42;
                 lbl.node.color = new cc.Color(60, 60, 60);
               }
-              // Widen sub_game_title for Korean title
               if (child.name === 'sub_game_title' || child.name === 'sub_gameTitle') {
                 child.width = Math.max(child.width, 700);
-              }
-              // Replace loading screen title with logo image
-              if (child.name === 'titlebg' && !child._krFixed) {
-                child._krFixed = true;
-                child.width = 500;
-                child.height = 250;
-                var sp2 = child.getComponent(cc.Sprite);
-                if (!sp2) sp2 = child.addComponent(cc.Sprite);
-                sp2.sizeMode = 0;
-                sp2.spriteFrame = null; // immediately clear old Chinese title
-                cc.loader.load({url: 'logo.png', type: 'png'}, function(err, tex) {
-                  if (!err && tex) {
-                    sp2.spriteFrame = new cc.SpriteFrame(tex);
-                  }
-                });
               }
               replaceSprite(child);
             }
