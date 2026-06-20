@@ -211,6 +211,26 @@
               if (child.name === 'sub_game_title' || child.name === 'sub_gameTitle') {
                 child.width = Math.max(child.width, 700);
               }
+              // Replace loading screen title (Chinese image)
+              if (child.name === 'titlebg' && !child._krFixed) {
+                child._krFixed = true;
+                child.width = 700;
+                child.height = 100;
+                var sp2 = child.getComponent(cc.Sprite);
+                if (sp2) sp2.enabled = false;
+                var tl = child.getComponentInChildren(cc.Label);
+                if (!tl) {
+                  var tNode = new cc.Node('krTitle');
+                  tl = tNode.addComponent(cc.Label);
+                  tNode.parent = child;
+                  tNode.setPosition(0, 0);
+                }
+                tl.string = '토스 주차게임';
+                tl.fontSize = 60;
+                tl.lineHeight = 70;
+                tl.enableOutline = true;
+                tl.node.color = new cc.Color(255, 255, 255);
+              }
               replaceSprite(child);
             }
           }
