@@ -218,16 +218,12 @@
                 child.height = 250;
                 var sp2 = child.getComponent(cc.Sprite);
                 if (!sp2) sp2 = child.addComponent(cc.Sprite);
-                sp2.enabled = true;
-                sp2.sizeMode = 0; // CUSTOM
-                // Remove any text label we added before
-                var oldLbl = child.getComponentInChildren(cc.Label);
-                if (oldLbl) oldLbl.node.active = false;
-                // Load logo image
+                sp2.sizeMode = 0;
+                sp2.spriteFrame = null;
                 cc.loader.load({url: 'logo.png', type: 'png'}, function(err, tex) {
                   if (!err && tex) {
-                    var sf = new cc.SpriteFrame(tex);
-                    sp2.spriteFrame = sf;
+                    sp2.spriteFrame = new cc.SpriteFrame(tex);
+                    child.active = true;
                   }
                 });
               }
